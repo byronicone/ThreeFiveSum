@@ -5,11 +5,12 @@ public class ThreeFiveSum {
 
     public static void main(String[] args) {
 
-        Calculator one = () -> bruteForce();
-        Calculator two = () -> checkMultiples();
-        Calculator all[] = new Calculator[]{one, two};
+        Calculator all[] = new Calculator[]{()->bruteForce(),
+                ()->checkMultiples(),
+                ()->greedyMultiples(),
+                };
 
-        System.out.println("Question: what is the sum of all numbers divisible by 3 or 5 that are less than 1000?");
+        System.out.println("Question: what is the sum of all numbers divisible by 3 or 5 that are less than 1000?\n");
 
         for(Calculator c: all){
             Answer a = calculate(c);
@@ -28,6 +29,7 @@ public class ThreeFiveSum {
     }
 
     private static int bruteForce(){
+        System.out.println("Using brute force method");
         int sum = 0;
         /*This method is brute force, involving division, not the most efficient
         however it is very intuitive.*/
@@ -43,6 +45,7 @@ public class ThreeFiveSum {
     }
 
     private static int checkMultiples(){
+        System.out.println("Using sum of multiples method");
         int sumThrees = 0;
         int sumFives = 0;
         int sumFifteens = 0;  //the least common multiple - any of these should not be counted twice
@@ -62,4 +65,27 @@ public class ThreeFiveSum {
         int sum = sumThrees + sumFives - sumFifteens;
         return sum;
     }
+
+    private static int greedyMultiples(){
+        System.out.println("Using greedy multiples method");
+        int sumThrees = 0;
+        int sumFives = 0;
+        int sumFifteens = 0;  //the least common multiple - any of these should not be counted twice
+
+        for(int i = 6; i <= 999; i+=6){
+            sumThrees+=i+(i-3);
+        }
+
+        for(int j = 10; j <= 995; j+=10){
+            sumFives+=j+(j-5);
+        }
+
+        for(int k = 30; k <= 990; k+=30){
+            sumFifteens+=k+(k-15);
+        }
+
+        int sum = sumThrees + 999 + sumFives + 995 - sumFifteens;
+        return sum;
+    }
+
 }
